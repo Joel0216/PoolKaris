@@ -4,13 +4,20 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function initializeWebsite() {
-    // Inicializar AOS (Animate On Scroll)
+    // Detectar dispositivo móvil
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    // Inicializar AOS (Animate On Scroll) con configuración optimizada para móviles
     if (typeof AOS !== 'undefined') {
         AOS.init({
-            duration: 800,
+            duration: isMobile ? 600 : 800,
             easing: 'ease-in-out',
             once: true,
-            offset: 100
+            offset: isMobile ? 50 : 100,
+            disable: function() {
+                // Deshabilitar en pantallas muy pequeñas para mejor rendimiento
+                return window.innerWidth < 320;
+            }
         });
     }
     
@@ -23,6 +30,58 @@ function initializeWebsite() {
     initializeImageLazyLoading();
     initializeAnimations();
     initializeContactForms();
+    initializeMobileOptimizations();
+}
+
+// ===== OPTIMIZACIONES MÓVILES =====
+function initializeMobileOptimizations() {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+        // Optimizar background-attachment para móviles
+        const body = document.body;
+        const header = document.querySelector('.fixed-header');
+        
+        // Cambiar background-attachment a scroll en móviles para mejor rendimiento
+        body.style.backgroundAttachment = 'scroll';
+        if (header) {
+            header.style.backgroundAttachment = 'scroll';
+        }
+        
+        // Reducir animaciones en dispositivos de baja potencia
+        if (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 2) {
+            document.documentElement.style.setProperty('--transition-fast', '0.2s ease');
+            document.documentElement.style.setProperty('--transition-medium', '0.3s ease');
+            document.documentElement.style.setProperty('--transition-slow', '0.4s ease');
+        }
+        
+        // Optimizar scroll en iOS
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            document.body.style.webkitOverflowScrolling = 'touch';
+        }
+        
+        // Mejorar rendimiento de hover en touch devices
+        addTouchSupport();
+    }
+}
+
+function addTouchSupport() {
+    // Reemplazar hover con touch events para mejor experiencia móvil
+    const productCards = document.querySelectorAll('.product-card');
+    const contactBtns = document.querySelectorAll('.contact-btn');
+    const navButtons = document.querySelectorAll('.nav-button');
+    
+    [...productCards, ...contactBtns, ...navButtons].forEach(element => {
+        element.addEventListener('touchstart', function() {
+            this.classList.add('touch-active');
+        });
+        
+        element.addEventListener('touchend', function() {
+            setTimeout(() => {
+                this.classList.remove('touch-active');
+            }, 150);
+        });
+    });
 }
 
 // ===== LOADING SCREEN =====
@@ -67,11 +126,12 @@ function initializeNavigation() {
     });
 }
 
-// ===== EFECTOS DE SCROLL =====
+// ===== EFECTOS DE SCROLL OPTIMIZADOS =====
 function initializeScrollEffects() {
     let lastScrollTop = 0;
     let scrollTimeout;
     let ticking = false;
+    const isMobile = window.innerWidth <= 768;
 
     function updateScrollEffects() {
         const header = document.querySelector('.fixed-header');
@@ -79,16 +139,19 @@ function initializeScrollEffects() {
         const heroSection = document.querySelector('.hero');
         const heroHeight = heroSection ? heroSection.offsetHeight : 0;
         
-        // Efecto de header al hacer scroll
-        if (scrolled > 100) {
+        // Efecto de header al hacer scroll (más suave en móviles)
+        if (scrolled > (isMobile ? 50 : 100)) {
             header.classList.add('scrolled');
         } else {
             header.classList.remove('scrolled');
         }
         
-        // Ocultar/mostrar header inteligentemente
-        if (scrolled > heroHeight * 0.8) {
-            if (scrolled > lastScrollTop && scrolled > 200) {
+        // Ocultar/mostrar header inteligentemente (menos agresivo en móviles)
+        const hideThreshold = isMobile ? heroHeight * 0.6 : heroHeight * 0.8;
+        const scrollDifference = Math.abs(scrolled - lastScrollTop);
+        
+        if (scrolled > hideThreshold && scrollDifference > 5) {
+            if (scrolled > lastScrollTop && scrolled > (isMobile ? 150 : 200)) {
                 header.classList.add('hidden');
             } else {
                 header.classList.remove('hidden');
@@ -99,13 +162,13 @@ function initializeScrollEffects() {
         
         lastScrollTop = scrolled;
         
-        // Mostrar header después de parar el scroll
+        // Mostrar header después de parar el scroll (más rápido en móviles)
         clearTimeout(scrollTimeout);
         scrollTimeout = setTimeout(() => {
-            if (scrolled > heroHeight * 0.8) {
+            if (scrolled > hideThreshold) {
                 header.classList.remove('hidden');
             }
-        }, 1000);
+        }, isMobile ? 500 : 1000);
         
         // Actualizar botón back to top
         updateBackToTop(scrolled);
@@ -113,12 +176,25 @@ function initializeScrollEffects() {
         ticking = false;
     }
 
+    // Usar requestAnimationFrame para mejor rendimiento
     window.addEventListener('scroll', () => {
         if (!ticking) {
             requestAnimationFrame(updateScrollEffects);
             ticking = true;
         }
-    });
+    }, { passive: true });
+    
+    // Optimización adicional para móviles
+    if (isMobile) {
+        let scrollTimer;
+        window.addEventListener('scroll', () => {
+            clearTimeout(scrollTimer);
+            document.body.classList.add('scrolling');
+            scrollTimer = setTimeout(() => {
+                document.body.classList.remove('scrolling');
+            }, 150);
+        }, { passive: true });
+    }
 }
 
 // ===== TARJETAS DE PRODUCTOS MEJORADAS =====
