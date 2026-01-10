@@ -84,20 +84,20 @@ function addTouchSupport() {
     });
 }
 
-// ===== LOADING SCREEN =====
+// ===== LOADING SCREEN RÁPIDO =====
 function initializeLoading() {
     const loadingOverlay = document.getElementById('loadingOverlay');
     
-    // Simular tiempo de carga
+    // Tiempo de carga reducido para mejor experiencia
     setTimeout(() => {
         if (loadingOverlay) {
             loadingOverlay.classList.add('hidden');
             // Remover del DOM después de la animación
             setTimeout(() => {
                 loadingOverlay.remove();
-            }, 800);
+            }, 500);
         }
-    }, 2000);
+    }, 800); // Reducido de 2000ms a 800ms
 }
 
 // ===== NAVEGACIÓN MEJORADA =====
