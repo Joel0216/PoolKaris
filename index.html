@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pool & Karis - Artículos Religiosos Exclusivos para Eventos Especiales</title>
+    <meta name="description" content="Creamos artículos religiosos únicos y elegantes para bodas, bautizos, primeras comuniones y eventos especiales desde 2012.">
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lora:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Dancing+Script:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</head>
+<body>
+    <!-- Loading Animation -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-content">
+            <div class="loading-logo">
+                <img src="Logo.png" alt="Pool & Karis" class="loading-logo-img">
+            </div>
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+            </div>
+            <p class="loading-text">Cargando experiencia única...</p>
+        </div>
+    </div>
+
+    <!-- Fixed Header -->
+    <header class="fixed-header" id="fixedHeader">
+        <div class="container">
+            <div class="logo-section">
+                <img src="Logo.png" alt="Pool & Karis - Artículos Religiosos Exclusivos" class="logo-img">
+            </div>
+            <nav class="header-nav">
+                <div class="header-buttons">
+                    <a href="#productos" class="nav-button productos-btn">
+                        <i class="fas fa-gem"></i>
+                        <span>Productos</span>
+                    </a>
+                    <a href="#nosotros" class="nav-button nosotros-btn">
+                        <i class="fas fa-heart"></i>
+                        <span>Nosotros</span>
+                    </a>
+                    <a href="#contacto" class="nav-button contactar-btn">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>Contactar</span>
+                    </a>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section with Banner Background -->
+    <section id="inicio" class="hero">
+        <!-- Banner Background -->
+        <div class="banner-background">
+            <img src="Baner.png" alt="Banner Background" class="banner-bg-img">
+        </div>
+        
+        <!-- Floating Elements -->
+        <div class="floating-elements">
+            <div class="floating-element" style="--delay: 0s; --duration: 6s;">✨</div>
+            <div class="floating-element" style="--delay: 2s; --duration: 8s;">🌹</div>
+            <div class="floating-element" style="--delay: 4s; --duration: 7s;">✨</div>
+            <div class="floating-element" style="--delay: 1s; --duration: 9s;">💫</div>
+        </div>
+        
+        <!-- Main Banner Text -->
+        <div class="hero-content">
+            <div class="container">
+                <div class="hero-text-wrapper">
+                    <h1 class="banner-text">
+                        <span class="banner-line1" data-aos="fade-up" data-aos-delay="300">SOMOS PARTE DE</span>
+                        <span class="banner-line2" data-aos="fade-up" data-aos-delay="600">TUS RECUERDOS</span>
+                    </h1>
+                    <p class="hero-subtitle" data-aos="fade-up" data-aos-delay="900">
+                        Creando momentos únicos e inolvidables desde 2012
+                    </p>
+                    <div class="hero-cta" data-aos="fade-up" data-aos-delay="1200">
+                        <a href="#productos" class="cta-button primary">
+                            <span>Descubre Nuestros Productos</span>
+                            <i class="fas fa-arrow-down"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Scroll Indicator -->
+        <div class="scroll-indicator">
+            <div class="scroll-arrow">
+                <i class="fas fa-chevron-down"></i>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products Section -->
+    <section id="productos" class="products">
+        <div class="container">
+            <!-- Section Header -->
+            <div class="section-header" data-aos="fade-up">
+                <div class="section-subtitle">Nuestros Productos</div>
+                <h2 class="section-title">Colección Exclusiva</h2>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="divider-line"></div>
+                </div>
+                <p class="section-description">
+                    Cada pieza es cuidadosamente elaborada para hacer de tu evento un momento único e inolvidable
+                </p>
+            </div>
+
+            <!-- Products Grid -->
+            <div class="products-grid">
+                <div class="product-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="product-image">
+                        <img src="Productos/Álbum Firmas.png" alt="Álbum de Firmas Elegante">
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-book-open"></i>
+                                <span class="overlay-text">Ver Detalles</span>
+                            </div>
+                        </div>
+                        <div class="product-badge">Premium</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Álbum de Firmas</h3>
+                        <p class="product-description">Elegantes álbumes personalizados para conservar los mejores deseos</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="product-image">
+                        <img src="Productos/Álbum Fotos.png" alt="Álbum de Fotos Exclusivo">
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-images"></i>
+                                <span class="overlay-text">Ver Detalles</span>
+                            </div>
+                        </div>
+                        <div class="product-badge">Exclusivo</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Álbum de Fotos</h3>
+                        <p class="product-description">Álbumes únicos para atesorar los momentos más especiales</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="product-image">
+                        <img src="Productos/Biblias.png" alt="Biblias Personalizadas">
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-bible"></i>
+                                <span class="overlay-text">Ver Detalles</span>
+                            </div>
+                        </div>
+                        <div class="product-badge">Sagrado</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Biblias</h3>
+                        <p class="product-description">Biblias personalizadas para ceremonias religiosas especiales</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="product-image">
+                        <img src="Productos/Canastas.png" alt="Canastas Artesanales">
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-shopping-basket"></i>
+                                <span class="overlay-text">Ver Detalles</span>
+                            </div>
+                        </div>
+                        <div class="product-badge">Artesanal</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Canastas</h3>
+                        <p class="product-description">Canastas artesanales perfectas para ceremonias y regalos</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="500">
+                    <div class="product-image">
+                        <img src="Productos/Cojines.png" alt="Cojines Ceremoniales">
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-heart"></i>
+                                <span class="overlay-text">Ver Detalles</span>
+                            </div>
+                        </div>
+                        <div class="product-badge">Elegante</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Cojines</h3>
+                        <p class="product-description">Cojines ceremoniales con bordados únicos y delicados</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="600">
+                    <div class="product-image">
+                        <img src="Productos/Copas.png" alt="Copas de Ceremonia">
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-wine-glass-alt"></i>
+                                <span class="overlay-text">Ver Detalles</span>
+                            </div>
+                        </div>
+                        <div class="product-badge">Cristal</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Copas</h3>
+                        <p class="product-description">Copas de cristal para brindis y ceremonias especiales</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="700">
+                    <div class="product-image">
+                        <img src="Productos/Coronas.png" alt="Coronas Ceremoniales">
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-crown"></i>
+                                <span class="overlay-text">Ver Detalles</span>
+                            </div>
+                        </div>
+                        <div class="product-badge">Real</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Coronas</h3>
+                        <p class="product-description">Coronas ceremoniales con detalles dorados y perlas</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="800">
+                    <div class="product-image">
+                        <img src="Productos/Cubiertos.png" alt="Cubiertos Ceremoniales">
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-utensils"></i>
+                                <span class="overlay-text">Ver Detalles</span>
+                            </div>
+                        </div>
+                        <div class="product-badge">Plata</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Cubiertos</h3>
+                        <p class="product-description">Cubiertos de plata para ceremonias y eventos especiales</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="900">
+                    <div class="product-image">
+                        <img src="Productos/Diademas.png" alt="Diademas Exclusivas">
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-crown"></i>
+                                <span class="overlay-text">Ver Detalles</span>
+                            </div>
+                        </div>
+                        <div class="product-badge">👑 Joya</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Diademas</h3>
+                        <p class="product-description">Diademas con cristales y perlas para ocasiones especiales</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="1000">
+                    <div class="product-image">
+                        <img src="Productos/Fistoles.png" alt="Fistoles Ceremoniales">
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-ribbon"></i>
+                                <span class="overlay-text">Ver Detalles</span>
+                            </div>
+                        </div>
+                        <div class="product-badge">Seda</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Fistoles</h3>
+                        <p class="product-description">Fistoles de seda con bordados únicos y elegantes</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="1100">
+                    <div class="product-image">
+                        <img src="Productos/Ligas y Benditas.png" alt="Ligas y Benditas">
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-ring"></i>
+                                <span class="overlay-text">Ver Detalles</span>
+                            </div>
+                        </div>
+                        <div class="product-badge">Bendito</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Ligas y Benditas</h3>
+                        <p class="product-description">Ligas y benditas con detalles únicos y significativos</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="1200">
+                    <div class="product-image">
+                        <img src="Productos/Ramos.png" alt="Ramos Ceremoniales">
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-seedling"></i>
+                                <span class="overlay-text">Ver Detalles</span>
+                            </div>
+                        </div>
+                        <div class="product-badge">Natural</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Ramos</h3>
+                        <p class="product-description">Ramos naturales y artificiales para ceremonias religiosas</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="1300">
+                    <div class="product-image">
+                        <img src="Productos/Tocados y Guías.png" alt="Tocados y Guías">
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-hat-wizard"></i>
+                                <span class="overlay-text">Ver Detalles</span>
+                            </div>
+                        </div>
+                        <div class="product-badge">Único</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Tocados y Guías</h3>
+                        <p class="product-description">Tocados únicos y guías ceremoniales personalizadas</p>
+                    </div>
+                </div>
+
+                <div class="product-card" data-aos="fade-up" data-aos-delay="1400">
+                    <div class="product-image">
+                        <img src="Productos/Velas.png" alt="Velas Ceremoniales">
+                        <div class="product-overlay">
+                            <div class="overlay-content">
+                                <i class="fas fa-fire"></i>
+                                <span class="overlay-text">Ver Detalles</span>
+                            </div>
+                        </div>
+                        <div class="product-badge">🕯️ Sagrada</div>
+                    </div>
+                    <div class="product-info">
+                        <h3 class="product-name">Velas</h3>
+                        <p class="product-description">Velas ceremoniales con aromas únicos y diseños especiales</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="nosotros" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text" data-aos="fade-right">
+                    <div class="section-subtitle">Nuestra Historia</div>
+                    <h2 class="section-title">Una Pasión que Nació en 2012</h2>
+                    <div class="section-divider">
+                        <div class="divider-line"></div>
+                        <div class="divider-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="divider-line"></div>
+                    </div>
+                    <p class="about-description">
+                        Somos una empresa que inició de la ilusión en el 2012 con la 
+                        pasión por elaborar artículos religiosos y ser parte de ese gran 
+                        momento de las familias mexicanas y de otras partes del mundo.
+                    </p>
+                    <p class="about-description">
+                        Cada pieza que creamos lleva consigo el amor, la dedicación y el 
+                        compromiso de hacer de tu evento algo verdaderamente especial e inolvidable.
+                    </p>
+                    <div class="about-stats">
+                        <div class="stat-item">
+                            <div class="stat-number">12+</div>
+                            <div class="stat-label">Años de Experiencia</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">1000+</div>
+                            <div class="stat-label">Eventos Especiales</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">100%</div>
+                            <div class="stat-label">Satisfacción</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image" data-aos="fade-left">
+                    <div class="image-wrapper">
+                        <div class="logo-showcase">
+                            <img src="Logo.png" alt="Pool & Karis - Nuestra Pasión" class="about-logo">
+                            <div class="logo-text">
+                                <h3>Pool & Karis</h3>
+                                <p>Tocados y Accesorios</p>
+                            </div>
+                        </div>
+                        <div class="image-overlay">
+                            <div class="overlay-text">
+                                <i class="fas fa-quote-left"></i>
+                                <p>"Creando momentos únicos desde 2012"</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up">
+                <div class="section-subtitle">¿Por Qué Elegirnos?</div>
+                <h2 class="section-title">Nuestra Diferencia</h2>
+                <div class="section-divider">
+                    <div class="divider-line"></div>
+                    <div class="divider-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <div class="divider-line"></div>
+                </div>
+            </div>
+            
+            <div class="features-grid">
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="100">
+                    <div class="feature-icon">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3 class="feature-title">Hecho con Amor</h3>
+                    <p class="feature-description">Cada pieza es elaborada con dedicación y cariño, pensando en hacer de tu evento algo único.</p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="200">
+                    <div class="feature-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3 class="feature-title">Calidad Premium</h3>
+                    <p class="feature-description">Utilizamos solo los mejores materiales para garantizar productos de la más alta calidad.</p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="300">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3 class="feature-title">Diseño Personalizado</h3>
+                    <p class="feature-description">Adaptamos cada diseño a tus gustos y necesidades específicas para tu evento especial.</p>
+                </div>
+                
+                <div class="feature-card" data-aos="fade-up" data-aos-delay="400">
+                    <div class="feature-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <h3 class="feature-title">Entrega Puntual</h3>
+                    <p class="feature-description">Cumplimos con los tiempos de entrega para que tu evento sea perfecto en cada detalle.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contacto" class="contact">
+        <div class="contact-overlay"></div>
+        <div class="container">
+            <div class="contact-content">
+                <div class="section-header" data-aos="fade-up">
+                    <div class="section-subtitle">Contáctanos</div>
+                    <h2 class="contact-title">Hagamos Realidad Tu Evento Soñado</h2>
+                    <div class="contact-emoji">🤝</div>
+                    <p class="contact-subtitle">
+                        Estamos aquí para ayudarte a crear momentos únicos e inolvidables
+                    </p>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-card" data-aos="fade-up" data-aos-delay="200">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Llámanos</h3>
+                            <div class="phone-numbers">
+                                <a href="tel:3331583111" class="phone-link">33.3158.3111</a>
+                                <a href="tel:3312801547" class="phone-link">33.1280.1547</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card" data-aos="fade-up" data-aos-delay="400">
+                        <div class="contact-icon">
+                            <i class="fab fa-whatsapp"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>WhatsApp</h3>
+                            <p>Respuesta inmediata</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-card" data-aos="fade-up" data-aos-delay="600">
+                        <div class="contact-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h3>Horarios</h3>
+                            <p>Lun - Sáb: 9:00 AM - 7:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-methods" data-aos="fade-up" data-aos-delay="800">
+                    <a href="tel:3331583111" class="contact-btn call-btn">
+                        <i class="fas fa-phone-alt"></i>
+                        <span>Llamar Ahora</span>
+                    </a>
+                    <a href="https://wa.me/523331583111" class="contact-btn whatsapp-btn" target="_blank">
+                        <i class="fab fa-whatsapp"></i>
+                        <span>WhatsApp</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="decorative-border top"></div>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-main">
+                    <div class="footer-logo" data-aos="fade-up">
+                        <img src="Logo.png" alt="Pool & Karis Logo" class="footer-logo-img">
+                        <h3 class="footer-brand">Pool & Karis</h3>
+                        <p class="footer-tagline">Creando momentos únicos desde 2012</p>
+                        <div class="footer-social">
+                            <a href="https://wa.me/523331583111" class="social-link" target="_blank">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                            <a href="tel:3331583111" class="social-link">
+                                <i class="fas fa-phone-alt"></i>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="footer-info" data-aos="fade-up" data-aos-delay="200">
+                        <h4 class="footer-title">Productos</h4>
+                        <ul class="footer-links">
+                            <li><a href="#productos">Álbumes</a></li>
+                            <li><a href="#productos">Biblias</a></li>
+                            <li><a href="#productos">Coronas</a></li>
+                            <li><a href="#productos">Diademas</a></li>
+                            <li><a href="#productos">Velas</a></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="footer-contact" data-aos="fade-up" data-aos-delay="400">
+                        <h4 class="footer-title">Contacto</h4>
+                        <div class="footer-contact-info">
+                            <div class="contact-item">
+                                <i class="fas fa-phone-alt"></i>
+                                <span>33.3158.3111</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-phone-alt"></i>
+                                <span>33.1280.1547</span>
+                            </div>
+                            <div class="contact-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Lun - Sáb: 9:00 AM - 7:00 PM</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="footer-cross" data-aos="fade-up" data-aos-delay="600">
+                    <i class="fas fa-cross"></i>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <div class="footer-divider"></div>
+                <div class="footer-bottom-content">
+                    <p>&copy; 2024 Pool & Karis. Todos los derechos reservados.</p>
+                    <p class="footer-love">Hecho con <i class="fas fa-heart"></i> para momentos especiales</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top Button -->
+    <button class="back-to-top" id="backToTop">
+        <i class="fas fa-chevron-up"></i>
+    </button>
+
+    <!-- AOS Animation Library -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
