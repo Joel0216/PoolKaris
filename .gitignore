@@ -1,0 +1,46 @@
+# Documentación (contiene información sensible)
+*.md
+!.github/
+!docs/
+
+# Archivos de configuración
+*.config.js
+supabase-config.js
+.env
+.env.local
+.env.*.local
+
+# Bases de datos y SQL
+*.sql
+*.db
+*.sqlite
+
+# Node y dependencias
+node_modules/
+package.json
+package-lock.json
+yarn.lock
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+*.log
+
+# IDEs
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+
+# Archivos temporales
+*.tmp
+*.temp
+~*
+
+# Compilados
+*.js.map
+*.css.map
+
+# Archivos de estado
+STATUS.txt
+*.status
