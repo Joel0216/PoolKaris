@@ -620,6 +620,41 @@
         <i class="fas fa-chevron-up"></i>
     </button>
 
+    <!-- Password Authentication Modal -->
+    <div class="auth-modal" id="authModal" style="display: none;">
+        <div class="auth-container">
+            <div class="auth-close-btn" id="authCloseBtn">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="auth-content">
+                <div class="auth-icon">
+                    <i class="fas fa-lock"></i>
+                </div>
+                <h2 class="auth-title">Acceso Restringido</h2>
+                <p class="auth-subtitle" id="authFilterName"></p>
+                <p class="auth-description">Ingresa la contraseña para ver los productos de esta categoría</p>
+                
+                <div class="auth-form">
+                    <div class="password-input-group">
+                        <input type="password" id="authPassword" class="auth-input" placeholder="Contraseña" maxlength="50">
+                        <button type="button" id="togglePassword" class="toggle-password-btn">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <button type="button" id="authSubmit" class="auth-button">
+                        <span>Acceder</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <div class="auth-error" id="authError" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Protection Overlay (Prevents Screenshots) -->
+    <div class="protection-overlay" id="protectionOverlay"></div>
+
     <!-- AOS Animation Library -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>

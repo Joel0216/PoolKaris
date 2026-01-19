@@ -32,6 +32,7 @@ function initializeWebsite() {
     initializeAnimations();
     initializeContactForms();
     initializeMobileOptimizations();
+    initializeAuthenticationSystem();
 }
 
 // ===== SISTEMA DE FILTROS Y PRODUCTOS =====
@@ -59,6 +60,17 @@ function initializeFilterSystem() {
     }
 
     function showProducts(filterName) {
+        // Verificar si requiere autenticación (global)
+        if (!isUserAuthenticated()) {
+            showAuthModal(filterName);
+            return;
+        }
+
+        // Si está autenticado, mostrar productos
+        loadAndShowProducts(filterName);
+    }
+
+    function loadAndShowProducts(filterName) {
         // Ocultar filtros y mostrar productos
         filtersGrid.style.display = 'none';
         productsView.style.display = 'block';
@@ -108,6 +120,9 @@ function initializeFilterSystem() {
 
             // Agregar eventos a botones de WhatsApp
             initializeWhatsAppButtons();
+            
+            // Agregar protección a las imágenes de productos
+            addProtectionOverlayToProducts();
 
         } catch (error) {
             console.error('Error cargando productos:', error);
@@ -905,3 +920,404 @@ function preloadCriticalImages() {
 
 // Inicializar preload
 preloadCriticalImages();
+
+// ===== SISTEMA DE AUTENTICACIÓN Y PROTECCIÓN =====
+
+// Configuración de seguridad
+const SECURITY_CONFIG = {
+    correctPassword: 'Cristy', // Contraseña correcta
+    protectionImagePath: 'C:\\Users\\denic\\Downloads\\PoolKaris\\Cuadro transparente.png',
+    sessionTimeout: 24 * 60 * 60 * 1000, // 24 horas en milisegundos
+    maxLoginAttempts: 5,
+    lockoutDuration: 15 * 60 * 1000 // 15 minutos
+};
+
+// Sistema de almacenamiento de sesión (GLOBAL)
+const AuthSessionManager = {
+    globalAuthKey: 'poolkaris_auth_global',
+    
+    setAuthenticated() {
+        const timestamp = Date.now();
+        sessionStorage.setItem(this.globalAuthKey, JSON.stringify({
+            authenticated: true,
+            timestamp: timestamp
+        }));
+    },
+    
+    isAuthenticated() {
+        const data = sessionStorage.getItem(this.globalAuthKey);
+        
+        if (!data) return false;
+        
+        try {
+            const parsed = JSON.parse(data);
+            const age = Date.now() - parsed.timestamp;
+            
+            // Verificar si la sesión ha expirado
+            if (age > SECURITY_CONFIG.sessionTimeout) {
+                this.clearAuthentication();
+                return false;
+            }
+            
+            return parsed.authenticated === true;
+        } catch (e) {
+            return false;
+        }
+    },
+    
+    clearAuthentication() {
+        sessionStorage.removeItem(this.globalAuthKey);
+    }
+};
+
+// Sistema de intentos fallidos
+const LoginAttemptManager = {
+    attemptsKey: 'poolkaris_login_attempts',
+    lockoutKey: 'poolkaris_lockout_time',
+    
+    recordFailedAttempt() {
+        let attempts = this.getAttempts();
+        attempts += 1;
+        localStorage.setItem(this.attemptsKey, attempts.toString());
+        
+        if (attempts >= SECURITY_CONFIG.maxLoginAttempts) {
+            this.lockout();
+        }
+        
+        return attempts;
+    },
+    
+    getAttempts() {
+        const attempts = localStorage.getItem(this.attemptsKey);
+        return parseInt(attempts) || 0;
+    },
+    
+    reset() {
+        localStorage.removeItem(this.attemptsKey);
+        localStorage.removeItem(this.lockoutKey);
+    },
+    
+    lockout() {
+        const lockoutTime = Date.now() + SECURITY_CONFIG.lockoutDuration;
+        localStorage.setItem(this.lockoutKey, lockoutTime.toString());
+    },
+    
+    isLockedOut() {
+        const lockoutTime = localStorage.getItem(this.lockoutKey);
+        if (!lockoutTime) return false;
+        
+        if (Date.now() > parseInt(lockoutTime)) {
+            this.reset();
+            return false;
+        }
+        
+        return true;
+    },
+    
+    getRemainingLockoutTime() {
+        const lockoutTime = parseInt(localStorage.getItem(this.lockoutKey)) || 0;
+        const remaining = lockoutTime - Date.now();
+        return Math.max(0, remaining);
+    }
+};
+
+function isFilterAuthenticated(filterName) {
+    return AuthSessionManager.isAuthenticated(filterName);
+}
+
+function isUserAuthenticated() {
+    return AuthSessionManager.isAuthenticated();
+}
+
+function showAuthModal(filterName) {
+    // Resetear el formulario
+    document.getElementById('authPassword').value = '';
+    document.getElementById('authError').style.display = 'none';
+    
+    // Actualizar el título del modal
+    document.getElementById('authFilterName').textContent = `Acceso a: ${filterName}`;
+    
+    // Mostrar modal
+    const modal = document.getElementById('authModal');
+    modal.classList.add('show');
+    modal.style.display = 'flex';
+    
+    // Enfocar en el input de contraseña
+    document.getElementById('authPassword').focus();
+    
+    // Guardar el nombre del filtro para usarlo después
+    modal.dataset.filterName = filterName;
+    
+    // Verificar si está bloqueado
+    if (LoginAttemptManager.isLockedOut()) {
+        showLockedOutMessage();
+    }
+}
+
+function showLockedOutMessage() {
+    const remainingTime = LoginAttemptManager.getRemainingLockoutTime();
+    const minutes = Math.ceil(remainingTime / 60000);
+    
+    const errorEl = document.getElementById('authError');
+    errorEl.textContent = `Demasiados intentos fallidos. Intenta de nuevo en ${minutes} minuto(s).`;
+    errorEl.style.display = 'block';
+    
+    document.getElementById('authSubmit').disabled = true;
+    document.getElementById('authPassword').disabled = true;
+}
+
+function hideAuthModal() {
+    const modal = document.getElementById('authModal');
+    modal.classList.remove('show');
+    modal.style.display = 'none';
+    document.getElementById('authPassword').value = '';
+}
+
+function authenticateFilter(password, filterName) {
+    // Verificar si está bloqueado
+    if (LoginAttemptManager.isLockedOut()) {
+        showLockedOutMessage();
+        return false;
+    }
+    
+    // Verificar contraseña
+    if (verifyPassword(password)) {
+        // Contraseña correcta - AUTENTICACIÓN GLOBAL
+        AuthSessionManager.setAuthenticated();
+        LoginAttemptManager.reset();
+        hideAuthModal();
+        
+        // Mostrar los productos
+        loadAndShowProducts(filterName);
+        
+        return true;
+    } else {
+        // Contraseña incorrecta
+        const attempts = LoginAttemptManager.recordFailedAttempt();
+        const remaining = SECURITY_CONFIG.maxLoginAttempts - attempts;
+        
+        const errorEl = document.getElementById('authError');
+        
+        if (remaining > 0) {
+            errorEl.textContent = `Contraseña incorrecta. Intentos restantes: ${remaining}`;
+        } else {
+            errorEl.textContent = `Contraseña incorrecta. Cuenta bloqueada por ${Math.ceil(SECURITY_CONFIG.lockoutDuration / 60000)} minutos.`;
+        }
+        
+        errorEl.style.display = 'block';
+        document.getElementById('authPassword').classList.add('error-shake');
+        
+        setTimeout(() => {
+            document.getElementById('authPassword').classList.remove('error-shake');
+        }, 500);
+        
+        return false;
+    }
+}
+
+function verifyPassword(inputPassword) {
+    // Comparación segura de contraseña
+    // En producción, esto debería usar un hash adecuado
+    return inputPassword === SECURITY_CONFIG.correctPassword;
+}
+
+function initializeAuthenticationUI() {
+    const authModal = document.getElementById('authModal');
+    const authCloseBtn = document.getElementById('authCloseBtn');
+    const authSubmit = document.getElementById('authSubmit');
+    const authPassword = document.getElementById('authPassword');
+    const togglePasswordBtn = document.getElementById('togglePassword');
+    
+    // Cerrar modal
+    if (authCloseBtn) {
+        authCloseBtn.addEventListener('click', hideAuthModal);
+    }
+    
+    // Cerrar al presionar ESC
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && authModal.classList.contains('show')) {
+            hideAuthModal();
+        }
+    });
+    
+    // Cerrar al hacer click fuera del modal
+    if (authModal) {
+        authModal.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                hideAuthModal();
+            }
+        });
+    }
+    
+    // Botón de envío
+    if (authSubmit) {
+        authSubmit.addEventListener('click', () => {
+            const filterName = authModal.dataset.filterName;
+            const password = authPassword.value.trim();
+            
+            if (!password) {
+                document.getElementById('authError').textContent = 'Por favor ingresa la contraseña';
+                document.getElementById('authError').style.display = 'block';
+                return;
+            }
+            
+            authenticateFilter(password, filterName);
+        });
+    }
+    
+    // Permitir Enter para enviar
+    if (authPassword) {
+        authPassword.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const filterName = authModal.dataset.filterName;
+                const password = authPassword.value.trim();
+                
+                if (password) {
+                    authenticateFilter(password, filterName);
+                }
+            }
+        });
+    }
+    
+    // Toggle para mostrar/ocultar contraseña
+    if (togglePasswordBtn) {
+        togglePasswordBtn.addEventListener('click', () => {
+            const type = authPassword.type === 'password' ? 'text' : 'password';
+            authPassword.type = type;
+            
+            const icon = togglePasswordBtn.querySelector('i');
+            if (icon) {
+                icon.classList.toggle('fa-eye');
+                icon.classList.toggle('fa-eye-slash');
+            }
+        });
+    }
+}
+
+function addProtectionOverlayToProducts() {
+    // Esta función agrará la imagen transparente encima de cada imagen de producto
+    // Se ejecutará cuando se muestren los productos
+    setTimeout(() => {
+        const productImages = document.querySelectorAll('.individual-product .product-image img');
+        
+        productImages.forEach(img => {
+            const container = img.parentElement;
+            
+            // Evitar que se agregue más de una vez
+            if (container.querySelector('.product-protection-overlay')) {
+                return;
+            }
+            
+            // Crear overlay de protección
+            const overlay = document.createElement('div');
+            overlay.className = 'product-protection-overlay';
+            
+            // Bloquear clic derecho en la imagen
+            img.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                showNotification('Descargas de imágenes no permitidas');
+                return false;
+            });
+            
+            // Bloquear drag
+            img.addEventListener('dragstart', (e) => {
+                e.preventDefault();
+                return false;
+            });
+            
+            // Agregar CSS para prevenir selección
+            img.style.userSelect = 'none';
+            img.style.webkitUserSelect = 'none';
+            img.style.webkitUserDrag = 'none';
+            
+            container.appendChild(overlay);
+        });
+        
+        // Agregar protección contra capturas de pantalla
+        addScreenshotProtection();
+    }, 100);
+}
+
+function addScreenshotProtection() {
+    // Prevenir capturas de pantalla usando CSS
+    const protectionOverlay = document.getElementById('protectionOverlay');
+    if (protectionOverlay) {
+        protectionOverlay.classList.add('active');
+    }
+    
+    // Detectar intentos de captura de pantalla
+    document.addEventListener('keydown', (e) => {
+        // Bloqueando combinaciones comunes de captura de pantalla
+        if (
+            (e.key === 'PrintScreen') ||
+            (e.ctrlKey && e.shiftKey && e.key === 'S') || // Windows - Screenshot
+            (e.metaKey && e.shiftKey && e.key === '3') || // Mac - Screenshot
+            (e.metaKey && e.shiftKey && e.key === '4') // Mac - Partial Screenshot
+        ) {
+            e.preventDefault();
+            showNotification('Las capturas de pantalla están deshabilitadas en esta sección');
+            return false;
+        }
+    });
+    
+    // Intentar deshabilitar herramientas de desarrollador (opcional, puede ser eludido)
+    try {
+        // Detectar DevTools
+        const threshold = 160;
+        setInterval(() => {
+            if (window.outerHeight - window.innerHeight > threshold ||
+                window.outerWidth - window.innerWidth > threshold) {
+                console.clear();
+                document.body.innerHTML = '';
+            }
+        }, 500);
+    } catch (e) {
+        // Si hay error, continuar sin esta protección
+    }
+}
+
+// Inicializar sistema de autenticación
+function initializeAuthenticationSystem() {
+    initializeAuthenticationUI();
+    
+    // Limpiar sesiones al cerrar la ventana/pestaña
+    window.addEventListener('beforeunload', () => {
+        // Las sesiones se limpian automáticamente
+    });
+}
+
+// Agregar CSS dinámico para animaciones de error
+const authStyle = document.createElement('style');
+authStyle.textContent = `
+    @keyframes errorShake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+    
+    .auth-input.error-shake {
+        animation: errorShake 0.5s ease;
+        border-color: #e74c3c;
+    }
+    
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+`;
+document.head.appendChild(authStyle);
