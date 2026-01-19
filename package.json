@@ -9,6 +9,10 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.4",
+    "crypto-js": "^4.2.0"
+  },
   "devDependencies": {
     "http-server": "^14.1.1"
   }
