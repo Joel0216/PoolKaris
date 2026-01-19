@@ -1,5 +1,13 @@
 // ===== CONFIGURACIÓN INICIAL =====
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
+    // Inicializar Supabase primero
+    const supabaseReady = await initSupabase();
+    
+    if (supabaseReady) {
+        // Activar medidas de seguridad
+        disableScreenCapture();
+    }
+    
     initializeWebsite();
 });
 
@@ -45,9 +53,16 @@ function initializeFilterSystem() {
 
     // Manejar clicks en filtros
     filterCards.forEach(card => {
-        card.addEventListener('click', function() {
+        card.addEventListener('click', async function(e) {
+            e.preventDefault();
             const filterName = this.dataset.filter;
-            showProducts(filterName);
+            
+            // Mostrar modal de contraseña
+            const authenticated = await showPasswordModal(filterName);
+            
+            if (authenticated) {
+                showProducts(filterName);
+            }
         });
     });
 
@@ -58,14 +73,14 @@ function initializeFilterSystem() {
         });
     }
 
-    function showProducts(filterName) {
+    async function showProducts(filterName) {
         // Ocultar filtros y mostrar productos
         filtersGrid.style.display = 'none';
         productsView.style.display = 'block';
         currentFilterTitle.textContent = filterName;
 
         // Cargar productos del filtro
-        loadProductsFromFilter(filterName);
+        await loadProductsFromFilter(filterName);
 
         // Scroll al inicio de la sección
         document.getElementById('productos').scrollIntoView({ behavior: 'smooth' });
@@ -98,6 +113,32 @@ function initializeFilterSystem() {
             products.forEach((product, index) => {
                 productsHTML += createProductHTML(product, filterName, index);
             });
+
+            productsGrid.innerHTML = productsHTML;
+            
+            // Proteger imágenes
+            setTimeout(() => {
+                protectProductImages(productsGrid);
+                addTransparentOverlayToImages(productsGrid);
+            }, 100);
+
+            // Agregar carrusel de top productos
+            try {
+                const topProducts = await getTopProductsByFilter(filterName, 5);
+                if (topProducts.length > 0) {
+                    const carousel = createTopProductsCarousel(filterName, topProducts);
+                    if (carousel) {
+                        productsGrid.insertBefore(carousel, productsGrid.firstChild);
+                    }
+                }
+            } catch (error) {
+                console.error('Error cargando carrusel:', error);
+            }
+        } catch (error) {
+            console.error('Error cargando productos:', error);
+            productsGrid.innerHTML = '<div class="error-products">Error al cargar los productos. Intenta nuevamente.</div>';
+        }
+    }
 
             productsGrid.innerHTML = productsHTML;
 
@@ -345,7 +386,7 @@ function initializeFilterSystem() {
 
     function createProductHTML(product, filterName, index) {
         return `
-            <div class="product-card individual-product" data-aos="fade-up" data-aos-delay="${(index + 1) * 100}">
+            <div class="product-card individual-product" data-aos="fade-up" data-aos-delay="${(index + 1) * 100}" data-product-id="${product.id}">
                 <div class="product-image">
                     <img src="${product.image}" alt="${product.name}" onerror="this.src='Logo.png'">
                     <div class="product-overlay">
@@ -358,10 +399,16 @@ function initializeFilterSystem() {
                 <div class="product-info">
                     <h3 class="product-name">${product.name}</h3>
                     <p class="product-description">${product.description}</p>
-                    <button class="whatsapp-btn" data-filter="${filterName}" data-product="${product.name}">
-                        <i class="fab fa-whatsapp"></i>
-                        <span>Me gusta este modelo</span>
-                    </button>
+                    <div class="product-actions">
+                        <button class="product-like-btn" data-product-id="${product.id}" data-filter="${filterName}" title="Me gusta">
+                            <i class="far fa-heart"></i>
+                            <span class="like-counter">0</span>
+                        </button>
+                        <button class="whatsapp-btn" data-filter="${filterName}" data-product="${product.name}">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>Me gusta este modelo</span>
+                        </button>
+                    </div>
                 </div>
             </div>
         `;
@@ -387,6 +434,53 @@ function initializeFilterSystem() {
                 
                 // Abrir WhatsApp
                 window.open(whatsappURL, '_blank');
+            });
+        });
+
+        // Manejar botones de like
+        const likeBtns = document.querySelectorAll('.product-like-btn');
+        
+        likeBtns.forEach(btn => {
+            btn.addEventListener('click', async function(e) {
+                e.preventDefault();
+                
+                const productId = this.dataset.productId;
+                const filterName = this.dataset.filter;
+                const icon = this.querySelector('i');
+                const counter = this.querySelector('.like-counter');
+                
+                // Efecto visual
+                this.style.transform = 'scale(1.3)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 200);
+                
+                try {
+                    const success = await addLike(productId, productId, filterName);
+                    
+                    if (success) {
+                        // Cambiar icono a solid
+                        icon.classList.remove('far');
+                        icon.classList.add('fas', 'liked');
+                        this.classList.add('liked');
+                        
+                        // Actualizar contador
+                        const newCount = await getLikeCount(productId);
+                        counter.textContent = newCount;
+                        
+                        showToast('¡Te encantó este modelo! 💜', 'success');
+                        
+                        // Deshabilitar botón
+                        this.disabled = true;
+                    } else {
+                        showToast('Ya likeaste este producto', 'warning');
+                        icon.classList.add('liked');
+                        this.classList.add('liked');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    showToast('Error al procesar tu like', 'error');
+                }
             });
         });
     }

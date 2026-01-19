@@ -1970,6 +1970,15 @@ input, textarea, select {
     font-size: 0.95rem;
 }
 
+.product-actions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 1.5rem;
+    flex-wrap: wrap;
+}
+
 /* ===== SECCIÓN ABOUT MEJORADA ===== */
 .about {
     padding: 6rem 0;
@@ -3186,4 +3195,401 @@ input, textarea, select {
 .whatsapp-btn:active::after {
     width: 300px;
     height: 300px;
+}
+
+/* ===== ESTILOS DE SEGURIDAD Y PROTECCIÓN ===== */
+
+/* MODAL DE CONTRASEÑA */
+.password-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    backdrop-filter: blur(3px);
+}
+
+.password-modal-overlay.active {
+    opacity: 1;
+}
+
+.password-modal {
+    background: white;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 20px 60px rgba(139, 74, 156, 0.3);
+    overflow: hidden;
+    animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.password-modal-content {
+    padding: 30px;
+    position: relative;
+}
+
+.password-modal-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    color: #999;
+    transition: color 0.3s ease;
+    padding: 5px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.password-modal-close:hover {
+    color: var(--primary-purple);
+}
+
+.password-modal-header {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.password-modal-header h2 {
+    font-family: var(--font-primary);
+    font-size: 24px;
+    color: var(--primary-purple);
+    margin-bottom: 10px;
+}
+
+.password-modal-header p {
+    color: #666;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.password-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.password-input {
+    padding: 12px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    font-family: inherit;
+    transition: all 0.3s ease;
+}
+
+.password-input:focus {
+    outline: none;
+    border-color: var(--primary-purple);
+    box-shadow: 0 0 0 3px rgba(139, 74, 156, 0.1);
+}
+
+.password-input::placeholder {
+    color: #999;
+}
+
+.btn-verify-password {
+    padding: 12px 20px;
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    transform: translateY(0);
+}
+
+.btn-verify-password:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.btn-verify-password:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.password-error {
+    color: #d32f2f;
+    font-size: 14px;
+    text-align: center;
+    min-height: 20px;
+}
+
+.password-success {
+    color: #388e3c;
+    font-size: 14px;
+    text-align: center;
+    min-height: 20px;
+}
+
+.password-info {
+    text-align: center;
+    color: #999;
+    font-size: 12px;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid #e0e0e0;
+}
+
+/* CARRUSEL DE TOP PRODUCTOS */
+.top-products-carousel {
+    background: #f9f9f9;
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 25px;
+    border: 1px solid #e0e0e0;
+}
+
+.carousel-header {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.carousel-header h3 {
+    font-family: var(--font-primary);
+    color: var(--primary-purple);
+    font-size: 18px;
+}
+
+.carousel-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.carousel-track {
+    display: flex;
+    gap: 10px;
+    overflow: hidden;
+    flex: 1;
+    transition: transform 0.3s ease;
+}
+
+.carousel-item {
+    flex-shrink: 0;
+    width: 150px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: white;
+    box-shadow: var(--shadow-light);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.carousel-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+
+.carousel-product-image {
+    position: relative;
+    width: 100%;
+    height: 150px;
+    overflow: hidden;
+    background: #f0f0f0;
+}
+
+.carousel-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.carousel-item:hover .carousel-product-image img {
+    transform: scale(1.1);
+}
+
+.carousel-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('Cuadro transparente.png');
+    background-size: cover;
+    pointer-events: none;
+}
+
+.carousel-product-info {
+    padding: 8px;
+    text-align: center;
+}
+
+.product-likes-badge {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-rose);
+}
+
+.carousel-prev,
+.carousel-next {
+    background: var(--gradient-primary);
+    color: white;
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    transition: all 0.3s ease;
+}
+
+.carousel-prev:hover,
+.carousel-next:hover {
+    transform: scale(1.1);
+    box-shadow: var(--shadow-medium);
+}
+
+/* PROTECCIÓN DE IMÁGENES */
+.protected-image {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -webkit-user-drag: none;
+}
+
+.transparent-overlay {
+    pointer-events: none;
+    mix-blend-mode: multiply;
+}
+
+.image-overlay {
+    pointer-events: none;
+    opacity: 0.05;
+}
+
+/* TOAST NOTIFICATIONS */
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 15px 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: var(--shadow-medium);
+    z-index: 9999;
+    max-width: 300px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    font-size: 14px;
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast-info {
+    border-left: 4px solid #2196F3;
+    color: #2196F3;
+}
+
+.toast-warning {
+    border-left: 4px solid #FF9800;
+    color: #FF9800;
+}
+
+.toast-error {
+    border-left: 4px solid #d32f2f;
+    color: #d32f2f;
+}
+
+.toast-success {
+    border-left: 4px solid #388e3c;
+    color: #388e3c;
+}
+
+/* BOTÓN DE LIKE EN PRODUCTOS */
+.product-like-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    padding: 8px;
+}
+
+.product-like-btn:hover {
+    transform: scale(1.2);
+}
+
+.product-like-btn.liked {
+    color: var(--accent-rose);
+}
+
+.like-counter {
+    display: inline-block;
+    font-size: 12px;
+    color: #666;
+    margin-left: 5px;
+    vertical-align: middle;
+}
+
+/* RESPONSIVO */
+@media (max-width: 768px) {
+    .password-modal {
+        width: 95%;
+        max-width: 100%;
+    }
+
+    .carousel-item {
+        width: 120px;
+        height: 120px;
+    }
+
+    .carousel-product-image {
+        height: 120px;
+    }
+
+    .carousel-prev,
+    .carousel-next {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .toast {
+        bottom: 10px;
+        right: 10px;
+        max-width: calc(100% - 20px);
+    }
 }
